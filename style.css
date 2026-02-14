@@ -57,21 +57,18 @@ body {
 
 
 h1 {
-    font-size: 3rem;
-    /* Made slightly bigger since no card constraint */
+    font-size: clamp(1.8rem, 6vw, 3rem);
+    /* Responsive font size */
     margin-bottom: 2rem;
     font-weight: 800;
     letter-spacing: -0.5px;
     color: var(--text-color);
-    /* Dark Text */
-    text-shadow: none;
-    color: var(--text-color);
-    /* Dark Text */
-    text-shadow: none;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 15px;
+    white-space: nowrap;
+    /* Prevent wrapping */
 }
 
 .title-heart {
