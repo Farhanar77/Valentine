@@ -1,0 +1,266 @@
+:root {
+    /* Valentine Theme */
+    --primary-color: #D84685;
+    /* Magenta Pink */
+    --secondary-color: #E94E3F;
+    /* Orange Red */
+    --text-color: #4A2C3D;
+    /* Dark Raspberry */
+    --bg-color: #FDF0F6;
+    /* Light Lavender Pink */
+    --white: #ffffff;
+    --button-shadow: 0 4px 15px rgba(216, 70, 133, 0.4);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    /* Soft Pink Background */
+    background: var(--bg-color);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    color: var(--text-color);
+}
+
+/* @keyframes gradientBG removed for static cleaner look matching reference */
+
+.container {
+    text-align: center;
+    /* Removed card styling */
+    background: transparent;
+    /* backdrop-filter: blur(10px); */
+    /* padding: 5rem; */
+    border-radius: 30px;
+    box-shadow: none;
+    border: none;
+    max-width: 90%;
+    width: 600px;
+    /* height: 550px; */
+    /* Enforce fixed height for consistency */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.8s ease-out;
+}
+
+
+
+h1 {
+    font-size: 3rem;
+    /* Made slightly bigger since no card constraint */
+    margin-bottom: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text-color);
+    /* Dark Text */
+    text-shadow: none;
+    color: var(--text-color);
+    /* Dark Text */
+    text-shadow: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.title-heart {
+    width: 40px;
+    height: 40px;
+    stroke: #F48FB1;
+    /* Light Pink Outline */
+    stroke-width: 3px;
+    /* Adjusting SVG stroke via CSS isn't direct for img tags, so we rely on the SVG file, 
+       but we can use filter to tweak color if needed */
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.btn {
+    padding: 15px 40px;
+    /* Bigger buttons */
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 8px;
+    /* Reference looks slightly boxier with rounded corners */
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+}
+
+.yes-btn {
+    background: var(--primary-color);
+    color: white;
+    box-shadow: 0 4px 15px rgba(216, 70, 133, 0.3);
+    font-weight: 600;
+}
+
+.yes-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    background-color: #c23572;
+    box-shadow: 0 8px 25px rgba(216, 70, 133, 0.5);
+}
+
+.no-btn {
+    background-color: var(--secondary-color);
+    /* Orange Red */
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(233, 78, 63, 0.3);
+}
+
+.no-btn:hover {
+    background-color: #d13e30;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(233, 78, 63, 0.5);
+}
+
+.hidden {
+    display: none;
+}
+
+.gif-container img {
+    max-width: 100%;
+    max-height: 280px;
+    width: auto;
+    margin: 1rem 0;
+    mix-blend-mode: multiply;
+
+    /* Strict initial state: Hidden until JS says it's ready */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s ease-out, transform 1s ease-out;
+    will-change: opacity;
+    /* Force background to pure white for perfect multiply */
+    filter: contrast(1.1) brightness(1.1);
+}
+
+.gif-container img.loaded {
+    opacity: 1;
+    visibility: visible;
+}
+
+.subtext {
+    font-size: 1.2rem;
+    color: #888;
+    margin-top: 1rem;
+    font-weight: 500;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Make sure the container doesn't jump around too much */
+#victory-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@keyframes shake {
+    0% {
+        transform: translate(1px, 1px) rotate(0deg);
+    }
+
+    10% {
+        transform: translate(-1px, -2px) rotate(-1deg);
+    }
+
+    20% {
+        transform: translate(-3px, 0px) rotate(1deg);
+    }
+
+    30% {
+        transform: translate(3px, 2px) rotate(0deg);
+    }
+
+    40% {
+        transform: translate(1px, -1px) rotate(1deg);
+    }
+
+    50% {
+        transform: translate(-1px, 2px) rotate(-1deg);
+    }
+
+    60% {
+        transform: translate(-3px, 1px) rotate(0deg);
+    }
+
+    70% {
+        transform: translate(3px, 1px) rotate(-1deg);
+    }
+
+    80% {
+        transform: translate(-1px, -1px) rotate(1deg);
+    }
+
+    90% {
+        transform: translate(1px, 2px) rotate(0deg);
+    }
+
+    100% {
+        transform: translate(1px, -2px) rotate(-1deg);
+    }
+}
+
+.shake-anim {
+    animation: shake 0.5s;
+    animation-iteration-count: 1;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}

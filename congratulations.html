@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Congratulations!</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Specific override to ensure victory container is visible and centered immediately */
+        #victory-container {
+            display: flex;
+            animation: fadeIn 0.8s ease-out, pop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="victory-container">
+            <h1>yeah won it.</h1>
+            <div class="gif-container">
+                <img src="yes.gif" alt="Cute celebration gif">
+            </div>
+            <p class="subtext">ok</p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
