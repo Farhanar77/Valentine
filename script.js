@@ -1,119 +1,107 @@
 document.addEventListener('DOMContentLoaded', () => {
     const yesBtn = document.getElementById('yes-btn');
     const noBtn = document.getElementById('no-btn');
+    const buttonGroup = document.querySelector('.button-group');
 
-    // Check if we are on the victory page, if so, we don't need to do anything
-    if (!yesBtn || !noBtn) return;
-
-    let noClickCount = 0;
-    let yesScale = 1;
-
-    noBtn.addEventListener('click', () => {
-        noClickCount++;
-
-        // Make Yes button bigger only for the first 2 clicks
-        if (noClickCount <= 2) {
-            yesScale += 0.2;
-            yesBtn.style.transform = `scale(${yesScale})`;
-        }
-
-        if (noClickCount === 1) {
-            noBtn.textContent = 'rubbish';
-            moveButton(noBtn);
-        } else if (noClickCount === 2) {
-            noBtn.textContent = 'goru';
-            moveButton(noBtn);
-            // Enable evasive behavior after 2nd click state is reached
-            makeButtonEvasive();
-        } else {
-            // Should not be reachable if evasive, but just in case
-            moveButton(noBtn);
-        }
-    });
-
-    yesBtn.addEventListener('click', () => {
-        // Redirect to congratulations.html
-        window.location.href = 'congratulations.html';
-    });
-
-    function makeButtonEvasive() {
-        // Move button to body to ensure position:fixed is relative to viewport,
-        // ignoring any parent transforms (like on .container)
-        document.body.appendChild(noBtn);
-
-        const moveBtn = () => {
-            const width = noBtn.offsetWidth;
-            const height = noBtn.offsetHeight;
-            const padding = 20; // Enough safety margin but not too restrictive
-
-            // Calculate the valid range for the top-left corner
-            // Min: padding
-            // Max: window size - button size - padding
-            const minX = padding;
-            const minY = padding;
-
-            // If window is too small, max could be less than min. 
-            // We use Math.max to ensure we at least default to minX/minY, 
-            // but effectively if it's too small, it stays at 20,20.
-
-            // Use document.documentElement.clientWidth/Height to get viewport size excluding scrollbars
-            const viewportWidth = document.documentElement.clientWidth;
-            const viewportHeight = document.documentElement.clientHeight;
-
-            const maxX = Math.max(minX, viewportWidth - width - padding);
-            const maxY = Math.max(minY, viewportHeight - height - padding);
-
-            // Generate random coordinate between min and max
-            const randomX = Math.random() * (maxX - minX) + minX;
-            const randomY = Math.random() * (maxY - minY) + minY;
-
-            noBtn.style.position = 'fixed';
-            noBtn.style.zIndex = '9999';
-            noBtn.style.left = `${randomX}px`;
-            noBtn.style.top = `${randomY}px`;
-        };
-
-        // Use mouseenter for better performance than mouseover
-        noBtn.addEventListener('mouseenter', moveBtn);
-
-        // Also move immediately to show the effect
-        moveBtn();
-
-        // Ensure button stays in viewport on resize
-        window.addEventListener('resize', () => {
-            moveBtn();
-        });
-    }
-
-    function moveButton(btn) {
-        // Remove the class if it exists to reset the animation
-        btn.classList.remove('shake-anim');
-
-        // Trigger reflow to restart animation
-        void btn.offsetWidth;
-
-        // Add the class back
-        btn.classList.add('shake-anim');
-
-        // Remove class after animation finishes
-        setTimeout(() => {
-            btn.classList.remove('shake-anim');
-        }, 500);
-    }
-    // Start particle system
+    // Start particle system on all pages
     createParticles();
+
+    // Button logic only if buttons exist (index page)
+    if (yesBtn && noBtn) {
+        let noClickCount = 0;
+        let yesScale = 1;
+        let currentGap = 1.5; // Initial gap in rem
+
+        noBtn.addEventListener('click', () => {
+            noClickCount++;
+
+            yesScale += 0.15;
+            yesBtn.style.transform = `scale(${yesScale})`;
+
+            currentGap += 1;
+            if (buttonGroup) {
+                buttonGroup.style.gap = `${currentGap}rem`;
+            }
+
+            switch (noClickCount) {
+                case 1: noBtn.textContent = 'Are you positive?'; break;
+                case 2: noBtn.textContent = 'Pookie Please 🥺'; break;
+                case 3: noBtn.textContent = 'I will be very sad 😢'; break;
+                case 4: noBtn.textContent = 'Are you sure?'; break;
+                case 5: noBtn.textContent = 'Think again!'; break;
+                case 6: noBtn.textContent = 'Dont do this to me..'; break;
+                case 7:
+                    noBtn.textContent = 'Last Chance!';
+                    makeButtonEvasive();
+                    break;
+            }
+            moveButton(noBtn);
+        });
+
+        yesBtn.addEventListener('click', () => {
+            const container = document.querySelector('.container');
+            if (container) container.classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href = 'congratulations.html';
+            }, 500);
+        });
+
+        function makeButtonEvasive() {
+            document.body.appendChild(noBtn);
+            const moveBtn = () => {
+                const width = noBtn.offsetWidth;
+                const height = noBtn.offsetHeight;
+                const padding = 20;
+                const viewportWidth = document.documentElement.clientWidth;
+                const viewportHeight = document.documentElement.clientHeight;
+                const maxX = Math.max(padding, viewportWidth - width - padding);
+                const maxY = Math.max(padding, viewportHeight - height - padding);
+                const randomX = Math.random() * (maxX - padding) + padding;
+                const randomY = Math.random() * (maxY - padding) + padding;
+                noBtn.style.position = 'fixed';
+                noBtn.style.zIndex = '9999';
+                noBtn.style.left = `${randomX}px`;
+                noBtn.style.top = `${randomY}px`;
+            };
+            noBtn.addEventListener('mouseenter', moveBtn);
+            moveBtn();
+            window.addEventListener('resize', moveBtn);
+        }
+
+        function moveButton(btn) {
+            btn.classList.remove('shake-anim');
+            void btn.offsetWidth;
+            btn.classList.add('shake-anim');
+            setTimeout(() => btn.classList.remove('shake-anim'), 500);
+        }
+    }
 });
 
 // Reveal GIF strictly after everything is loaded to prevent white flash
-window.addEventListener('load', () => {
-    const gif = document.querySelector('.gif-container img');
-    if (gif) {
-        // slight buffer to ensure separate paint frame
-        requestAnimationFrame(() => {
-            gif.classList.add('loaded');
-        });
-    }
-});
+function revealGifs() {
+    const gifs = document.querySelectorAll('.gif-container img');
+
+    const reveal = (gif) => {
+        gif.classList.add('loaded');
+        // Clear inline styles to allow CSS class to take over
+        gif.style.opacity = '';
+        gif.style.visibility = '';
+    };
+
+    gifs.forEach(gif => {
+        // If image is already loaded (cached), reveal immediately
+        if (gif.complete) {
+            reveal(gif);
+        } else {
+            // Otherwise wait for it
+            gif.onload = () => reveal(gif);
+        }
+    });
+}
+
+// Check on load and immediately in case DOM is ready
+window.addEventListener('load', revealGifs);
+document.addEventListener('DOMContentLoaded', revealGifs);
 
 function createParticles() {
     const particlesContainer = document.createElement('div');

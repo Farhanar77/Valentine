@@ -89,6 +89,8 @@ h1 {
     justify-content: center;
     gap: 1.5rem;
     margin-top: 1rem;
+    /* Determine gap transition for smooth expansion */
+    transition: gap 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .btn {
@@ -101,7 +103,8 @@ h1 {
     cursor: pointer;
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    /* Slightly increased from 0.1s to 0.2s for smoothness while keeping it fast */
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s, box-shadow 0.3s;
     position: relative;
     overflow: hidden;
 }
@@ -158,11 +161,25 @@ h1 {
     visibility: visible;
 }
 
+#victory-container h1 {
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
 .subtext {
-    font-size: 1.2rem;
-    color: #888;
-    margin-top: 1rem;
-    font-weight: 500;
+    font-size: 1.1rem;
+    color: var(--primary-color);
+    /* Match Yes button color */
+    margin-top: 1.5rem;
+    font-weight: 400;
+    line-height: 1.6;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
 }
 
 @keyframes fadeIn {
@@ -175,6 +192,22 @@ h1 {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+.fade-out {
+    animation: fadeOut 0.5s ease-in forwards;
 }
 
 @keyframes pop {
